@@ -1,0 +1,3 @@
+package com.trustvault.audit;
+import org.springframework.stereotype.Controller;import org.springframework.ui.Model;import org.springframework.web.bind.annotation.*;
+@Controller @RequestMapping("/admin/audit") public class AuditController {private final AuditRepository audit;public AuditController(AuditRepository audit){this.audit=audit;}@GetMapping public String list(@RequestParam(required=false)String actor,Model m){m.addAttribute("events",actor==null||actor.isBlank()?audit.findTop500ByOrderByOccurredAtDesc():audit.findTop500ByActorEmailContainingIgnoreCaseOrderByOccurredAtDesc(actor));m.addAttribute("actor",actor);return "admin/audit";}}
